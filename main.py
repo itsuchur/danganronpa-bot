@@ -1,12 +1,36 @@
 import os
 import random
-from PIL import Image, ImageDraw, ImageFont
+import os
+import openai
 
+from PIL import Image, ImageDraw, ImageFont
+from dotenv import load_dotenv
 from moviepy.editor import AudioFileClip, ImageClip, VideoFileClip, CompositeAudioClip
 
 # from image_utils import ImageText
 
 # dr1_voice_hca_us.awb.05519.ogg C:\Program Files (x86)\Steam\steamapps\common\Danganronpa Trigger Happy Havoc\extracted\Dr1\data\us\voice
+
+load_dotenv()
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+def request_to_openai():
+    response = openai.Completion.create(
+    model="text-davinci-003",
+    prompt="Write down a joke in Monokuma's style. No more than 1 sentence and no longer than 100 characters.",
+    temperature=0.6,
+    max_tokens=150,
+    top_p=1,
+    frequency_penalty=1,
+    presence_penalty=1
+    )
+
+    response = response.choices[0].text
+
+    print(response)
+
+    # return response
 
 def select_random_background():
 
@@ -20,7 +44,7 @@ def select_random_monokuma():
 
     random_monokuma = random.choice(monokumas)
 
-    random_monokuma = "bustup_15_05.png"
+    # random_monokuma = "bustup_15_05.png"
 
     monokuma_width = 973
 
@@ -29,23 +53,6 @@ def select_random_monokuma():
     monokuma = Image.open(f"assets/monokuma/{random_monokuma}").convert("RGBA")
 
     return monokuma.resize((monokuma_width, monokuma_height), Image.LANCZOS)
-
-def split_text():
-
-    string = "As I sit here processing your request, I am struck by the incredible power of language. With just a few words, we can convey thoughts, emotions, and ideas. We can inspire, persuade, and inform. Language is the cornerstone of communication, and without it, we would be lost. As a language model, it is my job to help people harness the power of language to achieve their goals. Whether you need to write a compelling essay, draft a convincing email, or simply chat with a friend, I am here to assist you. So go ahead and ask me anything – I am ready and eager to help!"
-
-    lines = string.splitlines()
-
-    new_lines = []
-    for line in lines:
-        while len(line) > 54:
-            new_lines.append(line[:54])
-            line = line[74:]
-        new_lines.append(line)
-
-    new_content = "\n".join(new_lines)
-
-    return new_content
 
 
 def render_dialog_box():
