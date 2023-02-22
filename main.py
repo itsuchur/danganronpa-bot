@@ -2,7 +2,7 @@ import os
 import random
 from PIL import Image, ImageDraw, ImageFont
 
-from moviepy.editor import AudioFileClip, ImageClip
+from moviepy.editor import AudioFileClip, ImageClip, VideoFileClip, CompositeAudioClip
 
 # from image_utils import ImageText
 
@@ -19,6 +19,8 @@ def select_random_monokuma():
     monokumas = os.listdir("assets/monokuma")
 
     random_monokuma = random.choice(monokumas)
+
+    random_monokuma = "bustup_15_05.png"
 
     monokuma_width = 973
 
@@ -57,7 +59,7 @@ def render_dialog_box():
 
     # draw.text((65, 90),"Puhuhuhu! This is a proof of concept for Cookie! Puhuhuhu!",("#e5e5e7"),font=font)
 
-    draw.text((65, 90), """Fr fr ong, bitcrusher! Pillow library is a real deal! Puhuhuhu!""",("#e5e5e7"),font=font)
+    draw.text((65, 90), """Bitcrusher is playing Gambit without me!!""",("#e5e5e7"),font=font)
 
     # img.write_text_box((300, 125), """Why did Monokuma become a chef? Because he wanted\n to make despair-licious food! Puhuhuhu!""", box_width=200, font_filename=font,font_size=15, color="#e5e5e7", place='right')
 
@@ -68,8 +70,10 @@ def add_static_image_to_audio():
     """Create and save a video file to `output_path` after 
     combining a static image that is located in `image_path` 
     with an audio file in `audio_path`"""
+
+    
     # create the audio clip object
-    audio_clip = AudioFileClip("assets/audio/indeed.ogg")
+    audio_clip = AudioFileClip("assets/audio/ost.ogg")
     # create the image clip object
     image_clip = ImageClip("test.png")
     # use set_audio method from image clip to combine the audio with the image
@@ -79,7 +83,20 @@ def add_static_image_to_audio():
     # set the FPS to 1
     video_clip.fps = 1
     # write the resuling video clip
+    print(video_clip.duration)
     video_clip.write_videofile("output.mp4")
+
+    add_phrase_over_ost("output.mp4")
+
+def add_phrase_over_ost(video):
+    videoclip = VideoFileClip(video)
+    audioclip = AudioFileClip("assets/audio/idontbelieveit.ogg")
+
+    new_audioclip = CompositeAudioClip([videoclip.audio, audioclip])
+    videoclip.audio = new_audioclip
+    videoclip.duration = 3.0
+    videoclip.fps = 1
+    videoclip.write_videofile("output.mp4")
 
 def main():
 
