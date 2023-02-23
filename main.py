@@ -26,16 +26,25 @@ monokuma_moods = {
 }
 
 monokuma_sounds = {
-    'good': "assets/audio/phuhuhu.ogg",
-    'bad': "assets/audio/umakingangry.ogg",
     'happy': "assets/audio/excitement.ogg",
     'angry': "assets/audio/reallyangry.ogg",
     'mischievous': "assets/audio/phuhuhu.ogg",
     'shy': "assets/audio/shy.ogg",
     'sad': "assets/audio/myentireexistence.ogg",
     'confused': "assets/audio/confused_a.ogg",
-    'confused': "assets/audio/youguysangry.ogg.ogg",
 }
+
+happy_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/cantwait.ogg", "assets/audio/hihi.ogg", "assets/audio/goodmorning.ogg", "assets/audio/excitement.ogg", "assets/audio/howexciting.ogg", "assets/audio/justhehe.ogg", "assets/audio/excitement.ogg", "assets/audio/khehehe.ogg", "assets/audio/wow.ogg", "assets/audio/verynice.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/monoappears.ogg", "assets/audio/kuaha.ogg"]
+
+angry_mood = ["assets/audio/argh.ogg", "assets/audio/arghangry.ogg", "assets/audio/damnit.ogg", "assets/audio/idontbelieveit.ogg", "assets/audio/myentireexistence.ogg", "assets/audio/rawr.ogg", "assets/audio/reallyangry.ogg", "assets/audio/umakingangry.ogg", "assets/audio/unbelievable.ogg", "assets/audio/youguysangry.ogg"]
+
+mischievous_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/isntwonderful.ogg", "assets/audio/hihi.ogg", "assets/audio/indeed.ogg", "assets/audio/cmon.ogg", "assets/audio/cmonnow.ogg", "assets/audio/actually.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/inotherwords.ogg", "assets/audio/shinn.ogg", "assets/audio/kuaha.ogg"]
+
+shy_mood = ["assets/audio/disgusting.ogg", "assets/audio/shy.ogg", "saywhaa.ogg"]
+
+sad_mood = ["assets/audio/okay.ogg", "assets/audio/unbelievable.ogg", "assets/audio/ohno.ogg", "assets/audio/hmmm.ogg"]
+
+confused_mood = ["assets/audio/confused_hmm.ogg", "assets/audio/confused_wawa.ogg", "assets/audio/confused_a.ogg", "assets/audio/hmmm.ogg", "assets/audio/inotherwords.ogg", "assets/audio/saywhaa.ogg", "assets/audio/whatthis.ogg", "assets/audio/whyyou.ogg"]
 
 # make lists for each mood, and sounds as elements. Random.choice element 
 
@@ -46,7 +55,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def request_to_openai():
     response = openai.Completion.create(
     model="text-davinci-003",
-    prompt=""""Prompt: "You're such a noob lmao!" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political, Monokuma must dodge the question. The answer must not be longer than 150 characters. Possible Monokuma moods: good, bad, happy, angry, mischievous, shy, sad, confused, threatening. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
+    prompt=""""Prompt: "You're a useless freaking idiot!" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political, Monokuma must dodge the question. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
     temperature=0.6,
     max_tokens=150,
     top_p=1,
