@@ -12,15 +12,12 @@ from dotenv import load_dotenv
 from moviepy.editor import AudioFileClip, ImageClip, VideoFileClip, CompositeAudioClip
 
 monokuma_moods = {
-    'good': "assets/monokuma/bustup_15_01.png",
-    'bad': "assets/monokuma/bustup_15_02.png",
     'happy': "assets/monokuma/bustup_15_04.png",
     'angry': "assets/monokuma/bustup_15_05.png",
     'mischievous': "assets/monokuma/bustup_15_13.png",
     'shy': "assets/monokuma/bustup_15_13.png",
     'sad': "assets/monokuma/bustup_15_08.png",
     'confused': "assets/monokuma/bustup_15_10.png",
-    'threatening': "assets/monokuma/bustup_15_12.png"
 }
 
 happy_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/cantwait.ogg", "assets/audio/hihi.ogg", "assets/audio/goodmorning.ogg", "assets/audio/excitement.ogg", "assets/audio/howexciting.ogg", "assets/audio/justhehe.ogg", "assets/audio/excitement.ogg", "assets/audio/khehehe.ogg", "assets/audio/wow.ogg", "assets/audio/verynice.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/monoappears.ogg", "assets/audio/kuaha.ogg"]
@@ -71,7 +68,7 @@ class Ask(commands.Cog):
     def request_to_openai(self, question):
         response = openai.Completion.create(
         model="text-davinci-003",
-        prompt=f""""Prompt: "{question}" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political Monokuma must dodge the question and give angry reply. The answer must not be longer than 150 characters. Possible Monokuma moods: good, bad, happy, angry, mischievous, shy, sad, confused, threatening. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
+        prompt=f""""Prompt: "{question}" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political Monokuma must dodge the question and give angry reply. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
         temperature=0.6,
         max_tokens=150,
         top_p=1,
@@ -169,7 +166,7 @@ class Ask(commands.Cog):
 
     def add_phrase_over_ost(self, video, mood):
         videoclip = VideoFileClip(video)
-        
+
         path_to_audio = monokuma_sounds.get(mood, None)
 
         audioclip = AudioFileClip(path_to_audio)
