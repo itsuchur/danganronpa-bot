@@ -37,6 +37,8 @@ monokuma_sounds = {
     'confused': "assets/audio/youguysangry.ogg.ogg",
 }
 
+# make lists for each mood, and sounds as elements. Random.choice element 
+
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -44,7 +46,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def request_to_openai():
     response = openai.Completion.create(
     model="text-davinci-003",
-    prompt=""""Prompt: "Are you afraid of me?" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political, Monokuma must dodge the question. The answer must not be longer than 150 characters. Possible Monokuma moods: good, bad, happy, angry, mischievous, shy, sad, confused, threatening. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
+    prompt=""""Prompt: "You're such a noob lmao!" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political, Monokuma must dodge the question. The answer must not be longer than 150 characters. Possible Monokuma moods: good, bad, happy, angry, mischievous, shy, sad, confused, threatening. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
     temperature=0.6,
     max_tokens=150,
     top_p=1,
@@ -120,6 +122,16 @@ def select_specific_monokuma(new_response, mood):
     else:
         print("The mood is not found in dictionary.")
 
+def get_wrapped_text(text: str, font: ImageFont.ImageFont, line_length: int):
+    lines = ['']
+    for word in text.split():
+        line = f'{lines[-1]} {word}'.strip()
+        if font.getlength(line) <= line_length:
+            lines[-1] = line
+        else:
+            lines.append(word)
+    return '\n'.join(lines)
+
 
 def render_dialog_box(prompt = None):
 
@@ -130,15 +142,17 @@ def render_dialog_box(prompt = None):
 
     if prompt is None:
 
-    # img = ImageText((800, 600), background=(255, 255, 255, 200))
+        text = """Why did Monokuma become a chef? Because he wanted\n to make despair-licious food! Puhuhuhu!"""
 
-        draw.text((65, 90), """I'm Monokuma! The most based teddy bear!""",("#e5e5e7"),font=font)
-
-    # img.write_text_box((300, 125), """Why did Monokuma become a chef? Because he wanted\n to make despair-licious food! Puhuhuhu!""", box_width=200, font_filename=font,font_size=15, color="#e5e5e7", place='right')
+        wrapped_text = get_wrapped_text(text, font, line_length=1500) # 1500 is the optimal value
 
     else:
 
-        draw.text((65, 90), prompt,("#e5e5e7"),font=font)
+        wrapped_text = get_wrapped_text(prompt, font, line_length=1500) # 1500 is the optimal value
+    
+    draw.text((65, 90), wrapped_text,("#e5e5e7"),font=font)
+
+    # img.write_text_box((300, 125), """Why did Monokuma become a chef? Because he wanted\n to make despair-licious food! Puhuhuhu!""", box_width=200, font_filename=font,font_size=15, color="#e5e5e7", place='right')
 
     return dialog_box
 
