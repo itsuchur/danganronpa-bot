@@ -130,6 +130,16 @@ class Ask(commands.Cog):
         else:
             print("The mood is not found in dictionary.")
 
+    def get_wrapped_text(text: str, font: ImageFont.ImageFont, line_length: int):
+        lines = ['']
+        for word in text.split():
+            line = f'{lines[-1]} {word}'.strip()
+            if font.getlength(line) <= line_length:
+                lines[-1] = line
+            else:
+                lines.append(word)
+        return '\n'.join(lines)
+
 
     def render_dialog_box(self, prompt):
 
@@ -138,7 +148,9 @@ class Ask(commands.Cog):
         draw = ImageDraw.Draw(dialog_box)
         font = ImageFont.truetype("fonts/SourceSansPro-Bold.otf", 60)
 
-        draw.text((65, 90), prompt,("#e5e5e7"),font=font)
+        wrapped_text = self.get_wrapped_text(prompt, font, line_length=1500)
+
+        draw.text((65, 90), wrapped_text,("#e5e5e7"),font=font)
 
         return dialog_box
 
