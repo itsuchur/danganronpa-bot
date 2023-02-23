@@ -104,6 +104,20 @@ class Ask(commands.Cog):
 
         # return response
 
+    def select_audio_mood(self, mood):
+        if mood == "happy":
+            return random.choice(self.happy_mood)
+        elif mood == "angry":
+            return random.choice(self.angry_mood)
+        elif mood == "mischievous":
+            return random.choice(self.mischievous_mood)
+        elif mood == "shy":
+            return random.choice(self.shy_mood)
+        elif mood == "sad":
+            return random.choice(self.sad_mood)
+        elif mood == "confused":
+            return random.choice(self.confused_mood)
+
     def select_random_background(self):
 
         backgrounds = os.listdir("assets/backgrounds")
@@ -179,7 +193,7 @@ class Ask(commands.Cog):
     def add_phrase_over_ost(self, video, mood):
         videoclip = VideoFileClip(video)
 
-        path_to_audio = self.monokuma_sounds.get(mood, None)
+        path_to_audio = self.select_audio_mood(mood, None)
 
         audioclip = AudioFileClip(path_to_audio)
 
