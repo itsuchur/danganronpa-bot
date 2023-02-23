@@ -130,7 +130,7 @@ class Ask(commands.Cog):
         else:
             print("The mood is not found in dictionary.")
 
-    def get_wrapped_text(text: str, font: ImageFont.ImageFont, line_length: int):
+    def get_wrapped_text(self, text: str, font: ImageFont.ImageFont, line_length: int):
         lines = ['']
         for word in text.split():
             line = f'{lines[-1]} {word}'.strip()
