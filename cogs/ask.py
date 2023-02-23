@@ -17,22 +17,31 @@ monokuma_moods = {
     'happy': "assets/monokuma/bustup_15_04.png",
     'angry': "assets/monokuma/bustup_15_05.png",
     'mischievous': "assets/monokuma/bustup_15_13.png",
-    'shy': "assets/monokuma/bustup_15_03.png",
+    'shy': "assets/monokuma/bustup_15_13.png",
     'sad': "assets/monokuma/bustup_15_08.png",
     'confused': "assets/monokuma/bustup_15_10.png",
     'threatening': "assets/monokuma/bustup_15_12.png"
 }
 
+happy_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/cantwait.ogg", "assets/audio/hihi.ogg", "assets/audio/goodmorning.ogg", "assets/audio/excitement.ogg", "assets/audio/howexciting.ogg", "assets/audio/justhehe.ogg", "assets/audio/excitement.ogg", "assets/audio/khehehe.ogg", "assets/audio/wow.ogg", "assets/audio/verynice.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/monoappears.ogg", "assets/audio/kuaha.ogg"]
+
+angry_mood = ["assets/audio/argh.ogg", "assets/audio/arghangry.ogg", "assets/audio/damnit.ogg", "assets/audio/idontbelieveit.ogg", "assets/audio/myentireexistence.ogg", "assets/audio/rawr.ogg", "assets/audio/reallyangry.ogg", "assets/audio/umakingangry.ogg", "assets/audio/unbelievable.ogg", "assets/audio/youguysangry.ogg"]
+
+mischievous_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/isntwonderful.ogg", "assets/audio/hihi.ogg", "assets/audio/indeed.ogg", "assets/audio/cmon.ogg", "assets/audio/cmonnow.ogg", "assets/audio/actually.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/inotherwords.ogg", "assets/audio/shinn.ogg", "assets/audio/kuaha.ogg"]
+
+shy_mood = ["assets/audio/disgusting.ogg", "assets/audio/shy.ogg", "saywhaa.ogg"]
+
+sad_mood = ["assets/audio/okay.ogg", "assets/audio/unbelievable.ogg", "assets/audio/ohno.ogg", "assets/audio/hmmm.ogg"]
+
+confused_mood = ["assets/audio/confused_hmm.ogg", "assets/audio/confused_wawa.ogg", "assets/audio/confused_a.ogg", "assets/audio/hmmm.ogg", "assets/audio/inotherwords.ogg", "assets/audio/saywhaa.ogg", "assets/audio/whatthis.ogg", "assets/audio/whyyou.ogg"]
+
 monokuma_sounds = {
-    'good': "assets/audio/phuhuhu.ogg",
-    'bad': "assets/audio/umakingangry.ogg",
-    'happy': "assets/audio/excitement.ogg",
-    'angry': "assets/audio/reallyangry.ogg",
-    'mischievous': "assets/audio/phuhuhu.ogg",
-    'shy': "assets/audio/shy.ogg",
-    'sad': "assets/audio/myentireexistence.ogg",
-    'confused': "assets/audio/confused_a.ogg",
-    'threatening': "assets/audio/youguysangry.ogg",
+    'happy': random.choice(happy_mood),
+    'angry': random.choice(angry_mood),
+    'mischievous': random.choice(mischievous_mood),
+    'shy': random.choice(shy_mood),
+    'sad': random.choice(sad_mood),
+    'confused': random.choice(confused_mood)
 }
 
 load_dotenv()
@@ -160,7 +169,10 @@ class Ask(commands.Cog):
 
     def add_phrase_over_ost(self, video, mood):
         videoclip = VideoFileClip(video)
-        audioclip = AudioFileClip(f"{monokuma_sounds[mood]}")
+        
+        path_to_audio = monokuma_sounds.get(mood, None)
+
+        audioclip = AudioFileClip(path_to_audio)
 
         new_audioclip = CompositeAudioClip([videoclip.audio, audioclip])
         videoclip.audio = new_audioclip

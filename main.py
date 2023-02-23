@@ -13,6 +13,7 @@ from moviepy.editor import AudioFileClip, ImageClip, VideoFileClip, CompositeAud
 
 """Question: "What do you think of Danganronpa?". Answer in a humorous twisted way like Monokuma would. The answer must be given in humorous twisted way. If the question is inappropriate or political, Monokuma must dodge the question and answer like he's upset. The answer must not be longer than 150 characters. Imagine with what mood Monokuma would answer the question: good, bad, happy, angry, mischievous, shy, sad, confused, threatening. Indicate the mood by sending "mood" key and value being Monokumo's mood back with answer to this API request."""
 
+
 monokuma_moods = {
     'good': "assets/monokuma/bustup_15_01.png",
     'bad': "assets/monokuma/bustup_15_02.png",
@@ -23,15 +24,6 @@ monokuma_moods = {
     'sad': "assets/monokuma/bustup_15_08.png",
     'confused': "assets/monokuma/bustup_15_10.png",
     'threatening': "assets/monokuma/bustup_15_12.png"
-}
-
-monokuma_sounds = {
-    'happy': "assets/audio/excitement.ogg",
-    'angry': "assets/audio/reallyangry.ogg",
-    'mischievous': "assets/audio/phuhuhu.ogg",
-    'shy': "assets/audio/shy.ogg",
-    'sad': "assets/audio/myentireexistence.ogg",
-    'confused': "assets/audio/confused_a.ogg",
 }
 
 happy_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/cantwait.ogg", "assets/audio/hihi.ogg", "assets/audio/goodmorning.ogg", "assets/audio/excitement.ogg", "assets/audio/howexciting.ogg", "assets/audio/justhehe.ogg", "assets/audio/excitement.ogg", "assets/audio/khehehe.ogg", "assets/audio/wow.ogg", "assets/audio/verynice.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/monoappears.ogg", "assets/audio/kuaha.ogg"]
@@ -46,6 +38,15 @@ sad_mood = ["assets/audio/okay.ogg", "assets/audio/unbelievable.ogg", "assets/au
 
 confused_mood = ["assets/audio/confused_hmm.ogg", "assets/audio/confused_wawa.ogg", "assets/audio/confused_a.ogg", "assets/audio/hmmm.ogg", "assets/audio/inotherwords.ogg", "assets/audio/saywhaa.ogg", "assets/audio/whatthis.ogg", "assets/audio/whyyou.ogg"]
 
+monokuma_sounds = {
+    'happy': random.choice(happy_mood),
+    'angry': random.choice(angry_mood),
+    'mischievous': random.choice(mischievous_mood),
+    'shy': random.choice(shy_mood),
+    'sad': random.choice(sad_mood),
+    'confused': random.choice(confused_mood)
+}
+
 # make lists for each mood, and sounds as elements. Random.choice element 
 
 load_dotenv()
@@ -55,7 +56,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def request_to_openai():
     response = openai.Completion.create(
     model="text-davinci-003",
-    prompt=""""Prompt: "You're a useless freaking idiot!" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political, Monokuma must dodge the question. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
+    prompt=""""Prompt: "Great Monokuma, I love you!" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political, Monokuma must dodge the question. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
     temperature=0.6,
     max_tokens=150,
     top_p=1,
@@ -126,7 +127,7 @@ def select_specific_monokuma(new_response, mood):
 
         # main(new_response)
 
-        main(monokuma.resize((monokuma_width, monokuma_height), Image.LANCZOS), new_response)
+        main(monokuma.resize((monokuma_width, monokuma_height), Image.LANCZOS), new_response, mood)
 
     else:
         print("The mood is not found in dictionary.")
@@ -165,7 +166,7 @@ def render_dialog_box(prompt = None):
 
     return dialog_box
 
-def add_static_image_to_audio():
+def add_static_image_to_audio(mood):
 
     """Create and save a video file to `output_path` after 
     combining a static image that is located in `image_path` 
@@ -186,11 +187,14 @@ def add_static_image_to_audio():
     print(video_clip.duration)
     video_clip.write_videofile("output.mp4")
 
-    add_random_phrase_over_ost("output.mp4")
+    add_random_phrase_over_ost("output.mp4", mood)
 
-def add_random_phrase_over_ost(video):
+def add_random_phrase_over_ost(video, mood):
     videoclip = VideoFileClip(video)
-    audioclip = AudioFileClip("assets/audio/inotherwords.ogg")
+
+    path_to_audio = monokuma_sounds.get(mood, None)
+
+    audioclip = AudioFileClip(path_to_audio)
 
     new_audioclip = CompositeAudioClip([videoclip.audio, audioclip])
     videoclip.audio = new_audioclip
@@ -198,7 +202,7 @@ def add_random_phrase_over_ost(video):
     videoclip.fps = 1
     videoclip.write_videofile("output.mp4")
 
-def main(specific_monokuma = None, new_response = None):
+def main(specific_monokuma = None, new_response = None, mood = None):
 
     transparent_background = Image.open("assets/splash_dangan1.png")
 
@@ -228,6 +232,6 @@ def main(specific_monokuma = None, new_response = None):
 
     random_background.save('test.png')
 
-    add_static_image_to_audio()
+    add_static_image_to_audio(mood)
 
 request_to_openai()
