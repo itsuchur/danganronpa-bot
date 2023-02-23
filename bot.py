@@ -33,7 +33,7 @@ class Bot(commands.Bot):
             print(f'Failed to load an extension {extension}. Error: {Error}.')
 
     async def on_ready(self):
-      await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=f"Danganronpa"))
+      await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=f"Danganronpa"))
       print("Bot's ready.")
 
 
