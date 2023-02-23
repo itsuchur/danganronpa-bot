@@ -52,7 +52,7 @@ class Ask(commands.Cog):
     @app_commands.command(name="askmonokuma")
     async def askmonokuma(self, interaction: discord.Interaction, question: str) -> None:
 
-        await interaction.response.send_message("Monokuma's thinking!", ephemeral=True)
+        await interaction.response.send_message("Monokuma's thinking!")
 
         thing = functools.partial(self.request_to_openai, question)
 
@@ -62,7 +62,7 @@ class Ask(commands.Cog):
 
         myfile = discord.File('output.mp4')
 
-        await interaction.channel.send(f"{interaction.user.mention} Ask and you shall receive!", file=myfile)
+        await interaction.channel.send(f"{interaction.user.mention} You asked and so shall I have an answer! Puhuhu!~", file=myfile)
 
 
     def request_to_openai(self, question):
