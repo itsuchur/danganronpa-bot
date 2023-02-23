@@ -67,8 +67,8 @@ class Ask(commands.Cog):
 
     def request_to_openai(self, question):
         response = openai.Completion.create(
-        model="text-curie-001", # text-davinci-003
-        prompt=f""""Prompt: "{question}" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political Monokuma must dodge the question and give angry reply. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
+        model="text-davinci-003", # text-davinci-003  # good results but can't mood text-curie-001
+        prompt=f""""Prompt: "{question}" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political Monokuma must dodge the question and give angry reply. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word, must be lowercase without fluff.""",
         temperature=0.6,
         max_tokens=150,
         top_p=1,
