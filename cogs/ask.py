@@ -11,36 +11,6 @@ from PIL import Image, ImageDraw, ImageFont
 from dotenv import load_dotenv
 from moviepy.editor import AudioFileClip, ImageClip, VideoFileClip, CompositeAudioClip
 
-monokuma_moods = {
-    'happy': "assets/monokuma/bustup_15_04.png",
-    'angry': "assets/monokuma/bustup_15_05.png",
-    'mischievous': "assets/monokuma/bustup_15_13.png",
-    'shy': "assets/monokuma/bustup_15_13.png",
-    'sad': "assets/monokuma/bustup_15_08.png",
-    'confused': "assets/monokuma/bustup_15_10.png",
-}
-
-happy_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/cantwait.ogg", "assets/audio/hihi.ogg", "assets/audio/goodmorning.ogg", "assets/audio/excitement.ogg", "assets/audio/howexciting.ogg", "assets/audio/justhehe.ogg", "assets/audio/excitement.ogg", "assets/audio/khehehe.ogg", "assets/audio/wow.ogg", "assets/audio/verynice.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/monoappears.ogg", "assets/audio/kuaha.ogg"]
-
-angry_mood = ["assets/audio/argh.ogg", "assets/audio/arghangry.ogg", "assets/audio/damnit.ogg", "assets/audio/idontbelieveit.ogg", "assets/audio/myentireexistence.ogg", "assets/audio/rawr.ogg", "assets/audio/reallyangry.ogg", "assets/audio/umakingangry.ogg", "assets/audio/unbelievable.ogg", "assets/audio/youguysangry.ogg"]
-
-mischievous_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/isntwonderful.ogg", "assets/audio/hihi.ogg", "assets/audio/indeed.ogg", "assets/audio/cmon.ogg", "assets/audio/cmonnow.ogg", "assets/audio/actually.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/inotherwords.ogg", "assets/audio/shinn.ogg", "assets/audio/kuaha.ogg"]
-
-shy_mood = ["assets/audio/disgusting.ogg", "assets/audio/shy.ogg", "saywhaa.ogg"]
-
-sad_mood = ["assets/audio/okay.ogg", "assets/audio/unbelievable.ogg", "assets/audio/ohno.ogg", "assets/audio/hmmm.ogg"]
-
-confused_mood = ["assets/audio/confused_hmm.ogg", "assets/audio/confused_wawa.ogg", "assets/audio/confused_a.ogg", "assets/audio/hmmm.ogg", "assets/audio/inotherwords.ogg", "assets/audio/saywhaa.ogg", "assets/audio/whatthis.ogg", "assets/audio/whyyou.ogg"]
-
-monokuma_sounds = {
-    'happy': random.choice(happy_mood),
-    'angry': random.choice(angry_mood),
-    'mischievous': random.choice(mischievous_mood),
-    'shy': random.choice(shy_mood),
-    'sad': random.choice(sad_mood),
-    'confused': random.choice(confused_mood)
-}
-
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -48,6 +18,36 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 class Ask(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
+
+        self.monokuma_moods = {
+        'happy': "assets/monokuma/bustup_15_04.png",
+        'angry': "assets/monokuma/bustup_15_05.png",
+        'mischievous': "assets/monokuma/bustup_15_13.png",
+        'shy': "assets/monokuma/bustup_15_13.png",
+        'sad': "assets/monokuma/bustup_15_08.png",
+        'confused': "assets/monokuma/bustup_15_10.png",
+        }
+
+        self.happy_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/cantwait.ogg", "assets/audio/hihi.ogg", "assets/audio/goodmorning.ogg", "assets/audio/excitement.ogg", "assets/audio/howexciting.ogg", "assets/audio/justhehe.ogg", "assets/audio/excitement.ogg", "assets/audio/khehehe.ogg", "assets/audio/wow.ogg", "assets/audio/verynice.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/monoappears.ogg", "assets/audio/kuaha.ogg"]
+
+        self.angry_mood = ["assets/audio/argh.ogg", "assets/audio/arghangry.ogg", "assets/audio/damnit.ogg", "assets/audio/idontbelieveit.ogg", "assets/audio/myentireexistence.ogg", "assets/audio/rawr.ogg", "assets/audio/reallyangry.ogg", "assets/audio/umakingangry.ogg", "assets/audio/unbelievable.ogg", "assets/audio/youguysangry.ogg"]
+
+        self.mischievous_mood = ["assets/audio/phuhuhu.ogg", "assets/audio/barelycontain.ogg", "assets/audio/ahahaha.ogg", "assets/audio/isntwonderful.ogg", "assets/audio/hihi.ogg", "assets/audio/indeed.ogg", "assets/audio/cmon.ogg", "assets/audio/cmonnow.ogg", "assets/audio/actually.ogg", "assets/audio/puhaha_loud.ogg", "assets/audio/phuhuominous.ogg", "assets/audio/inotherwords.ogg", "assets/audio/shinn.ogg", "assets/audio/kuaha.ogg"]
+
+        self.shy_mood = ["assets/audio/disgusting.ogg", "assets/audio/shy.ogg", "saywhaa.ogg"]
+
+        self.sad_mood = ["assets/audio/okay.ogg", "assets/audio/unbelievable.ogg", "assets/audio/ohno.ogg", "assets/audio/hmmm.ogg"]
+
+        self.confused_mood = ["assets/audio/confused_hmm.ogg", "assets/audio/confused_wawa.ogg", "assets/audio/confused_a.ogg", "assets/audio/hmmm.ogg", "assets/audio/inotherwords.ogg", "assets/audio/saywhaa.ogg", "assets/audio/whatthis.ogg", "assets/audio/whyyou.ogg"]
+
+        self.monokuma_sounds = {
+            'happy': random.choice(self.happy_mood),
+            'angry': random.choice(self.angry_mood),
+            'mischievous': random.choice(self.mischievous_mood),
+            'shy': random.choice(self.shy_mood),
+            'sad': random.choice(self.sad_mood),
+            'confused': random.choice(self.confused_mood)
+        }
     
     @app_commands.command(name="askmonokuma")
     async def askmonokuma(self, interaction: discord.Interaction, question: str) -> None:
@@ -67,7 +67,7 @@ class Ask(commands.Cog):
 
     def request_to_openai(self, question):
         response = openai.Completion.create(
-        model="text-davinci-003",
+        model="text-curie-001", # text-davinci-003
         prompt=f""""Prompt: "{question}" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political Monokuma must dodge the question and give angry reply. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
         temperature=0.6,
         max_tokens=150,
@@ -113,7 +113,7 @@ class Ask(commands.Cog):
 
     def select_specific_monokuma(self, new_response, mood):
 
-        image_path = monokuma_moods.get(mood, None)
+        image_path = self.monokuma_moods.get(mood, None)
 
         if image_path is not None:
 
@@ -179,7 +179,7 @@ class Ask(commands.Cog):
     def add_phrase_over_ost(self, video, mood):
         videoclip = VideoFileClip(video)
 
-        path_to_audio = monokuma_sounds.get(mood, None)
+        path_to_audio = self.monokuma_sounds.get(mood, None)
 
         audioclip = AudioFileClip(path_to_audio)
 
