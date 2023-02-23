@@ -2,3 +2,4 @@ openai
 moviepy
 Pillow
 discord.py
+python-dotenv
