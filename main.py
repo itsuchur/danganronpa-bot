@@ -228,7 +228,7 @@ def main(specific_monokuma = None, new_response = None, mood = None):
 
         dialog_box = render_dialog_box()
 
-    random_background.paste(dialog_box, (3, 708), dialog_box)
+    random_background.paste(dialog_box, (0, 708), dialog_box)
 
     random_background.save('test.png')
 

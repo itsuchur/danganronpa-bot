@@ -201,7 +201,7 @@ class Ask(commands.Cog):
 
         dialog_box = self.render_dialog_box(new_response)
 
-        random_background.paste(dialog_box, (3, 708), dialog_box)
+        random_background.paste(dialog_box, (0, 708), dialog_box)
 
         random_background.save('test.png')
 
