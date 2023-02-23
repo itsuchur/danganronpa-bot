@@ -150,7 +150,7 @@ class Ask(commands.Cog):
 
         wrapped_text = self.get_wrapped_text(prompt, font, line_length=1500)
 
-        draw.text((65, 90), wrapped_text,("#e5e5e7"),font=font)
+        draw.text((65, 90), wrapped_text,("#ffffff"),font=font)
 
         return dialog_box
 

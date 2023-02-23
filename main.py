@@ -160,7 +160,7 @@ def render_dialog_box(prompt = None):
 
         wrapped_text = get_wrapped_text(prompt, font, line_length=1400) # 1500 is the optimal value
     
-    draw.text((65, 90), wrapped_text,("#e5e5e7"),font=font)
+    draw.text((65, 90), wrapped_text,("#ffffff"),font=font)
 
     # img.write_text_box((300, 125), """Why did Monokuma become a chef? Because he wanted\n to make despair-licious food! Puhuhuhu!""", box_width=200, font_filename=font,font_size=15, color="#e5e5e7", place='right')
 
