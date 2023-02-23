@@ -56,7 +56,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def request_to_openai():
     response = openai.Completion.create(
     model="text-davinci-003",
-    prompt=""""Prompt: "Great Monokuma, I love you!" Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political, Monokuma must dodge the question. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
+    prompt=""""Prompt: "Tell some lengthy weird profound thought." Imagine you're Monokuma. Answer in a twisted way like Monokuma would. If the question is inappropriate or political, Monokuma must dodge the question. The answer must not be longer than 150 characters. Possible Monokuma moods: happy, angry, mischievous, shy, sad, confused. The structure of your response: answer to the prompt, separator "|" and here goes Monokuma mood-- a single word in lowercase without fluff.""",
     temperature=0.6,
     max_tokens=150,
     top_p=1,
@@ -148,17 +148,17 @@ def render_dialog_box(prompt = None):
     dialog_box = Image.open("assets/dialog_box.png")
 
     draw = ImageDraw.Draw(dialog_box)
-    font = ImageFont.truetype("fonts/SourceSansPro-Bold.otf", 50)
+    font = ImageFont.truetype("fonts/TREBUCBD.ttf", 55)
 
     if prompt is None:
 
         text = """Why did Monokuma become a chef? Because he wanted\n to make despair-licious food! Puhuhuhu!"""
 
-        wrapped_text = get_wrapped_text(text, font, line_length=1500) # 1500 is the optimal value
+        wrapped_text = get_wrapped_text(text, font, line_length=1400) # 1500 is the optimal value
 
     else:
 
-        wrapped_text = get_wrapped_text(prompt, font, line_length=1500) # 1500 is the optimal value
+        wrapped_text = get_wrapped_text(prompt, font, line_length=1400) # 1500 is the optimal value
     
     draw.text((65, 90), wrapped_text,("#e5e5e7"),font=font)
 
@@ -185,7 +185,7 @@ def add_static_image_to_audio(mood):
     video_clip.fps = 1
     # write the resuling video clip
     print(video_clip.duration)
-    video_clip.write_videofile("output.mp4")
+    video_clip.write_videofile("output.mp4", codec="libx264", audio_codec="aac")
 
     add_random_phrase_over_ost("output.mp4", mood)
 
@@ -200,7 +200,7 @@ def add_random_phrase_over_ost(video, mood):
     videoclip.audio = new_audioclip
     videoclip.duration = 3.0
     videoclip.fps = 1
-    videoclip.write_videofile("output.mp4")
+    videoclip.write_videofile("output.mp4", codec="libx264", audio_codec="aac")
 
 def main(specific_monokuma = None, new_response = None, mood = None):
 

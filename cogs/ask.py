@@ -146,7 +146,7 @@ class Ask(commands.Cog):
         dialog_box = Image.open("assets/dialog_box.png")
 
         draw = ImageDraw.Draw(dialog_box)
-        font = ImageFont.truetype("fonts/SourceSansPro-Bold.otf", 60)
+        font = ImageFont.truetype("fonts/TREBUCBD.ttf", 60) # potentially Tresbuchet MS
 
         wrapped_text = self.get_wrapped_text(prompt, font, line_length=1500)
 
@@ -172,7 +172,7 @@ class Ask(commands.Cog):
         # set the FPS to 1
         video_clip.fps = 1
         # write the resuling video clip
-        video_clip.write_videofile("output.mp4")
+        video_clip.write_videofile("output.mp4", codec="libx264", audio_codec="aac")
 
         self.add_phrase_over_ost("output.mp4", mood)
 
@@ -187,7 +187,7 @@ class Ask(commands.Cog):
         videoclip.audio = new_audioclip
         videoclip.duration = 3.0
         videoclip.fps = 1
-        videoclip.write_videofile("output.mp4")
+        videoclip.write_videofile("output.mp4", codec="libx264", audio_codec="aac")
 
     def main(self, specific_monokuma, new_response, mood):
 
