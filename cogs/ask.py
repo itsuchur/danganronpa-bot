@@ -193,7 +193,7 @@ class Ask(commands.Cog):
     def add_phrase_over_ost(self, video, mood):
         videoclip = VideoFileClip(video)
 
-        path_to_audio = self.select_audio_mood(mood, None)
+        path_to_audio = self.select_audio_mood(mood)
 
         audioclip = AudioFileClip(path_to_audio)
 
